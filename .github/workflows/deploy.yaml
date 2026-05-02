@@ -25,7 +25,9 @@ jobs:
       - name: Build static files
         id: build
         run: |
-          go build -o web/game.wasm
+          mkdir -p web
+          go build -o web/game.wasm ./cmd
+
           cp $(go env GOROOT)/misc/wasm/wasm_exec.js web/
         env:
           GOOS: js
