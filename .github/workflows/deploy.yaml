@@ -26,12 +26,8 @@ jobs:
         id: build
         run: |
           mkdir -p web
-          go build -o web/game.wasm ./cmd
-
-          cp $(go env GOROOT)/misc/wasm/wasm_exec.js web/
-        env:
-          GOOS: js
-          GOARCH: wasm
+          GOOS=js GOARCH=wasm go build -o web/game.wasm ./cmd
+          cp "$(go env GOROOT)/lib/wasm/wasm_exec.js" web/ || cp "$(go env GOROOT)/misc/wasm/wasm_exec.js" web/
 
       - name: Upload static files as artifact
         id: deployment
