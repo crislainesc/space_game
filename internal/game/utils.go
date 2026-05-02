@@ -1,5 +1,7 @@
 package game
 
+import "runtime"
+
 type Rect struct {
 	X      float64
 	Y      float64
@@ -34,4 +36,8 @@ func (r Rect) Intersects(other Rect) bool {
 		other.X <= r.MaxX() &&
 		r.Y <= other.MaxY() &&
 		other.Y <= r.MaxY()
+}
+
+func IsMobile() bool {
+	return runtime.GOOS == "android" || runtime.GOOS == "ios"
 }

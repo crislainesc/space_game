@@ -9,6 +9,7 @@ import (
 )
 
 type Menu struct {
+	isMobile    bool
 	readyToPlay bool
 }
 
@@ -17,9 +18,10 @@ const (
 	screenHeight = 600
 )
 
-func NewMenu() *Menu {
+func NewMenu(isMobile bool) *Menu {
 	return &Menu{
 		readyToPlay: false,
+		isMobile:    isMobile,
 	}
 }
 
@@ -35,11 +37,15 @@ func (m *Menu) Draw(screen *ebiten.Image) {
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(315, 150)
 	screen.DrawImage(assets.GopherPlayer, op)
-	text.Draw(screen, "Press ENTER to start", assets.FontUi, 100, 400, color.White)
+	msg := "Press ENTER to start"
+	if m.isMobile {
+		msg = "Touch the screen to start"
+	}
+	text.Draw(screen, msg, assets.FontUi, 100, 400, color.White)
 }
 
 func (m *Menu) Update() {
-	if ebiten.IsKeyPressed(ebiten.KeyEnter) {
+	if ebiten.IsKeyPressed(ebiten.KeySpace) || len(ebiten.AppendTouchIDs(nil)) > 0 {
 		m.readyToPlay = true
 	}
 }

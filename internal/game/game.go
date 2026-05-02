@@ -45,7 +45,7 @@ func NewGame() *Game {
 	}
 
 	g.player = NewPlayer(g)
-	g.menu = ui.NewMenu()
+	g.menu = ui.NewMenu(IsMobile())
 
 	return g
 }

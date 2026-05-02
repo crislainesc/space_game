@@ -49,14 +49,26 @@ func (p *Player) Update() {
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
 		p.position.X -= speed
-
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		p.position.X += speed
+	}
 
+	touchIDs := ebiten.AppendTouchIDs(nil)
+	for _, id := range touchIDs {
+		tx, _ := ebiten.TouchPosition(id)
+
+		if float64(tx) < screenWidth/2 {
+			p.position.X -= speed
+		} else {
+			p.position.X += speed
+		}
 	}
 
 	p.shootCooldown.Update()
-	if p.shootCooldown.IsReady() && inpututil.IsKeyJustPressed(ebiten.KeySpace) {
+
+	canShoot := inpututil.IsKeyJustPressed(ebiten.KeySpace) || len(touchIDs) > 0
+
+	if p.shootCooldown.IsReady() && canShoot {
 		p.shootCooldown.Reset()
 
 		bounds := p.sprite.Bounds()
