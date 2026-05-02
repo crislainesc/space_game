@@ -107,7 +107,7 @@ func (g *Game) Update() error {
 		b.Update()
 	}
 
-	remainingMeteors := g.meteors[:0] // Reutiliza a memória do slice atual
+	remainingMeteors := g.meteors[:0]
 	for _, m := range g.meteors {
 		hit := false
 
