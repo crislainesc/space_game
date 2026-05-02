@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/crislainesc/space_game/internal/game"
 	"github.com/hajimehoshi/ebiten/v2"
 )
@@ -8,8 +10,9 @@ import (
 func main() {
 	g := game.NewGame()
 
-	err := ebiten.RunGame(g)
-	if err != nil {
-		panic(err)
+	ebiten.SetFullscreen(true)
+	ebiten.SetScreenClearedEveryFrame(true)
+	if err := ebiten.RunGame(g); err != nil {
+		log.Fatal(err)
 	}
 }
